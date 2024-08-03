@@ -1,18 +1,19 @@
 import { View, FlatList, Text } from "react-native";
 import React, { useEffect, useState } from "react";
-import { FlashList } from "@shopify/flash-list";
 import getMeme from "../lib/getMeme";
 import MemeCard from "../components/memeCard";
 
 const Home = () => {
   const [memeData, setMemeData] = useState([]);
-
-  useEffect(() => {
-    const fetchMemeData = async () => {
-      const data = await getMeme();
+  const fetchMemeData = async () => {
+    const data = await getMeme();
+    if (memeData.length > 0) {
+      setMemeData([...memeData, ...data]);
+    } else {
       setMemeData(data);
-    };
-
+    }
+  };
+  useEffect(() => {
     fetchMemeData();
   }, []);
 
@@ -26,8 +27,10 @@ const Home = () => {
           renderItem={({ item }) => {
             return <MemeCard item={item} />;
           }}
-          estimatedItemSize={50}
           data={memeData}
+          onEndReached={fetchMemeData}
+          onEndReachedThreshold={2.5}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </View>
