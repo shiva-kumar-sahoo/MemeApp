@@ -2,6 +2,11 @@
   "expo": {
     "name": "MemeApp",
     "slug": "MemeApp",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "a3aa8cc0-0dc2-4898-8fad-885d69fcbcfc"
+      }
+    }
   }
 }
