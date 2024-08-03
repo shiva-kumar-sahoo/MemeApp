@@ -18,7 +18,7 @@ const Home = () => {
 
   return (
     <View className="flex-1 mt-5">
-      <View className="px-4">
+      <View className="px-2 bg-slate-400">
         <FlatList
           renderItem={({ item }) => {
             return <MemeCard item={item} />;

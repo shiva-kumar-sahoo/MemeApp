@@ -1,43 +1,108 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, ToastAndroid, Share, Alert } from "react-native";
 import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
 
 const memeCard = ({ item }) => {
+  const [like, setLike] = useState(false);
+  const [save, setSave] = useState(false);
   const memeImage = item?.preview
     ? { uri: item?.preview[1] }
     : require("../assets/demo.jpg");
-  console.log(item?.preview[1]);
-
+  // console.log(item?.preview[1]);
+  const memeShare = async () => {
+    const options = {
+      message: item?.title,
+    };
+    try {
+      const result = await Share.share(options);
+      if (result.action === Share.dismissedAction) {
+        Alert.alert("Share Dismissed");
+      }
+    } catch (err) {
+      Alert.alert("Problem In Sharing");
+    }
+  };
   return (
-    <View className="p-4 my-4 border">
+    <View className="p-2 my-2 bg-white rounded-md">
       <View className="flex flex-row justify-between items-center">
-        <View className="flex flex-row items-center gap-2">
+        <View className="flex flex-row items-center gap-2 mt-2">
           <View className="mx-5 w-10 h-10 rounded-full">
             <Image
               source={require("../assets/profile.jpeg")}
-              className="w-10 h-10 rounded-full ml-4 "
+              className="w-10 h-10 rounded-full ml-4"
             />
           </View>
-          <Text>{item?.author}</Text>
+          <View className="flex ">
+            <Text className="font-bold text-base">{item?.author}</Text>
+            <Text className="text-sm text-gray-400">{item?.subreddit}</Text>
+          </View>
         </View>
         <View>
           <Entypo name="dots-three-vertical" size={24} color="black" />
         </View>
       </View>
       <View className="flex p-2">
-        <Text>{item?.title}</Text>
+        <Text className="font-semibold">{item?.title}</Text>
       </View>
-      <View className="flex items-center my-5">
+      <View className="flex items-center ">
         <Image
           source={memeImage}
-          className="w-60 h-40"
+          className="w-full h-96 rounded-lg object-contain"
           contentFit="cover"
+          resizeMode="contain"
           transition={1000}
         />
       </View>
-      <View className="flex flex-row justify-between">
-        <AntDesign name="hearto" size={24} color="black" />
-        <AntDesign name="sharealt" size={24} color="black" />
-        <Ionicons name="bookmark-outline" size={24} color="black" />
+      <View className="flex flex-row justify-between px-6 mt-2">
+        <View className="flex items-center">
+          {like ? (
+            <AntDesign
+              name="heart"
+              size={30}
+              color="#FFC0CB"
+              onPress={() => {
+                setLike(false);
+              }}
+            />
+          ) : (
+            <AntDesign
+              name="hearto"
+              size={30}
+              color="black"
+              onPress={() => {
+                setLike(true);
+              }}
+            />
+          )}
+          <Text className="text-sm">{item?.ups ? item?.ups : ""}</Text>
+        </View>
+        <AntDesign
+          name="sharealt"
+          size={30}
+          color="black"
+          onPress={memeShare}
+        />
+        {save ? (
+          <Ionicons
+            name="bookmark"
+            size={30}
+            color="black"
+            onPress={() => {
+              ToastAndroid.show("UnSaved", ToastAndroid.SHORT);
+              setSave(true);
+            }}
+          />
+        ) : (
+          <Ionicons
+            name="bookmark-outline"
+            size={30}
+            color="black"
+            onPress={() => {
+              ToastAndroid.show("Saved", ToastAndroid.SHORT);
+              setSave(true);
+            }}
+          />
+        )}
       </View>
     </View>
   );
