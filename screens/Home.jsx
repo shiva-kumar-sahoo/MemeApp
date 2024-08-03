@@ -1,5 +1,6 @@
 import { View, FlatList, Text } from "react-native";
 import React, { useEffect, useState } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import getMeme from "../lib/getMeme";
 import MemeCard from "../components/memeCard";
 
@@ -18,7 +19,7 @@ const Home = () => {
   }, []);
 
   return (
-    <View className="flex-1 mt-5">
+    <GestureHandlerRootView className="flex-1 mt-5">
       <View className="flex items-center justify-center py-5">
         <Text className="text-xl font-bold">MemeApp</Text>
       </View>
@@ -33,7 +34,7 @@ const Home = () => {
           showsVerticalScrollIndicator={false}
         />
       </View>
-    </View>
+    </GestureHandlerRootView>
   );
 };
 

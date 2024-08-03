@@ -1,5 +1,6 @@
 import { View, Text, Image, ToastAndroid, Share, Alert } from "react-native";
 import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
+import { TapGestureHandler } from "react-native-gesture-handler";
 import { useState } from "react";
 
 const memeCard = ({ item }) => {
@@ -44,15 +45,22 @@ const memeCard = ({ item }) => {
       <View className="flex p-2">
         <Text className="font-semibold">{item?.title}</Text>
       </View>
-      <View className="flex items-center ">
-        <Image
-          source={memeImage}
-          className="w-full h-96 rounded-lg object-contain"
-          contentFit="cover"
-          resizeMode="contain"
-          transition={1000}
-        />
-      </View>
+      <TapGestureHandler
+        onActivated={() => {
+          setLike(true);
+        }}
+        numberOfTaps={2}
+      >
+        <View className="flex items-center ">
+          <Image
+            source={memeImage}
+            className="w-full h-96 rounded-lg object-contain"
+            contentFit="cover"
+            resizeMode="contain"
+            transition={1000}
+          />
+        </View>
+      </TapGestureHandler>
       <View className="flex flex-row justify-between px-6 mt-2">
         <View className="flex items-center">
           {like ? (
