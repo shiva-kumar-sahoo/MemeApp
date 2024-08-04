@@ -2,6 +2,8 @@ import { View, Text, Image, ToastAndroid, Share, Alert } from "react-native";
 import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
 import { TapGestureHandler } from "react-native-gesture-handler";
 import { useState } from "react";
+import saveMeme from "../lib/saveMeme";
+import unSaveMeme from "../lib/unSaveMeme";
 
 const memeCard = ({ item }) => {
   const [like, setLike] = useState(false);
@@ -22,6 +24,16 @@ const memeCard = ({ item }) => {
     } catch (err) {
       Alert.alert("Problem In Sharing");
     }
+  };
+  const memeSave = async () => {
+    await saveMeme(item);
+    ToastAndroid.show("Saved", ToastAndroid.SHORT);
+    setSave(true);
+  };
+  const memeUnSave = async () => {
+    await unSaveMeme(item);
+    ToastAndroid.show("UnSaved", ToastAndroid.SHORT);
+    setSave(false);
   };
   return (
     <View className="p-2 my-2 bg-white rounded-md">
@@ -95,20 +107,14 @@ const memeCard = ({ item }) => {
             name="bookmark"
             size={30}
             color="black"
-            onPress={() => {
-              ToastAndroid.show("UnSaved", ToastAndroid.SHORT);
-              setSave(true);
-            }}
+            onPress={memeUnSave}
           />
         ) : (
           <Ionicons
             name="bookmark-outline"
             size={30}
             color="black"
-            onPress={() => {
-              ToastAndroid.show("Saved", ToastAndroid.SHORT);
-              setSave(true);
-            }}
+            onPress={memeSave}
           />
         )}
       </View>

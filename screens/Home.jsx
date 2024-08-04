@@ -23,7 +23,7 @@ const Home = () => {
       <View className="flex items-center justify-center py-5">
         <Text className="text-xl font-bold">MemeApp</Text>
       </View>
-      <View className="px-2 py-16 bg-slate-300">
+      <View className="px-2 pb-16 bg-slate-300">
         <FlatList
           renderItem={({ item }) => {
             return <MemeCard item={item} />;
