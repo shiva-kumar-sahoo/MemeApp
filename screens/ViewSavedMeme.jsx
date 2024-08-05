@@ -3,17 +3,17 @@ import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
 import { TapGestureHandler } from "react-native-gesture-handler";
 import { useRoute } from "@react-navigation/native";
 import { useState } from "react";
+import saveMeme from "../lib/saveMeme";
+import unSaveMeme from "../lib/unSaveMeme";
 
 const ViewSavedMeme = () => {
   const route = useRoute();
   const item = route.params.item;
-  console.log(item);
-
   const memeImage = item?.preview
     ? { uri: item?.preview[1] }
     : require("../assets/demo.jpg");
-  const [like, setLike] = useState(false);
-  const [save, setSave] = useState(false);
+  const [like, setLike] = useState(item?.liked);
+  const [save, setSave] = useState(item?.saved);
   const memeShare = async () => {
     const options = {
       message: item?.title,

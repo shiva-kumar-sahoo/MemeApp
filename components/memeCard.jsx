@@ -11,7 +11,6 @@ const memeCard = ({ item }) => {
   const memeImage = item?.preview
     ? { uri: item?.preview[1] }
     : require("../assets/demo.jpg");
-  // console.log(item?.preview[1]);
   const memeShare = async () => {
     const options = {
       message: item?.title,
@@ -26,7 +25,8 @@ const memeCard = ({ item }) => {
     }
   };
   const memeSave = async () => {
-    await saveMeme(item);
+    const updatedItem = { ...item, saved: true, liked: like };
+    await saveMeme(updatedItem);
     ToastAndroid.show("Saved", ToastAndroid.SHORT);
     setSave(true);
   };
@@ -35,6 +35,7 @@ const memeCard = ({ item }) => {
     ToastAndroid.show("UnSaved", ToastAndroid.SHORT);
     setSave(false);
   };
+
   return (
     <View className="p-2 my-2 bg-white rounded-md">
       <View className="flex flex-row justify-between items-center">
