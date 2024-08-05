@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 function SavedMeme() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="ProfileScreen" component={Profile} />
       <Stack.Screen name="ViewSavedMeme" component={ViewSavedMeme} />
     </Stack.Navigator>
   );
