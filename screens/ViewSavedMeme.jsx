@@ -1,10 +1,11 @@
 import { View, Text, Image, ToastAndroid, Share, Alert } from "react-native";
-import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
+import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { TapGestureHandler } from "react-native-gesture-handler";
 import { useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import saveMeme from "../lib/saveMeme";
 import unSaveMeme from "../lib/unSaveMeme";
+import downloadMeme from "../lib/downloadMeme";
 
 const ViewSavedMeme = () => {
   const route = useRoute();
@@ -38,7 +39,9 @@ const ViewSavedMeme = () => {
     ToastAndroid.show("UnSaved", ToastAndroid.SHORT);
     setSave(false);
   };
-
+  const memeDownload = async () => {
+    await downloadMeme(item);
+  };
   return (
     <View className="p-2 my-auto bg-white rounded-md">
       <View className="flex flex-row justify-between items-center">
@@ -54,8 +57,13 @@ const ViewSavedMeme = () => {
             <Text className="text-sm text-gray-400">{item?.subreddit}</Text>
           </View>
         </View>
-        <View>
-          <Entypo name="dots-three-vertical" size={24} color="black" />
+        <View className="mx-4">
+          <Feather
+            name="download"
+            size={28}
+            color="black"
+            onPress={memeDownload}
+          />
         </View>
       </View>
       <View className="flex p-2">
