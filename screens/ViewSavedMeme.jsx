@@ -10,9 +10,9 @@ import downloadMeme from "../lib/downloadMeme";
 const ViewSavedMeme = () => {
   const route = useRoute();
   const item = route.params.item;
-  const memeImage = item?.preview
+  const memeImage = item?.preview[1]
     ? { uri: item?.preview[1] }
-    : require("../assets/demo.jpg");
+    : require("../assets/no-image.jpg");
   const [like, setLike] = useState(item?.liked);
   const [save, setSave] = useState(item?.saved);
   const memeShare = async () => {

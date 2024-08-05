@@ -9,9 +9,9 @@ import downloadMeme from "../lib/downloadMeme";
 const memeCard = ({ item }) => {
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
-  const memeImage = item?.preview
-    ? { uri: item?.preview[1] }
-    : require("../assets/demo.jpg");
+  const memeImage = item?.preview[2]
+    ? { uri: item?.preview[2] }
+    : require("../assets/no-image.jpg");
   const memeShare = async () => {
     const options = {
       message: item?.title,

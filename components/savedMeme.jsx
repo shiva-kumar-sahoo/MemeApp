@@ -3,9 +3,9 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
 const savedMeme = ({ item }) => {
-  const memeImage = item?.preview
+  const memeImage = item?.preview[1]
     ? { uri: item?.preview[1] }
-    : require("../assets/demo.jpg");
+    : require("../assets/no-image.jpg");
   const navigation = useNavigation();
   return (
     <View className="mx-2 mt-4 ">
