@@ -28,7 +28,8 @@ const ViewSavedMeme = () => {
     }
   };
   const memeSave = async () => {
-    await saveMeme(item);
+    const updatedItem = { ...item, saved: true, liked: like };
+    await saveMeme(updatedItem);
     ToastAndroid.show("Saved", ToastAndroid.SHORT);
     setSave(true);
   };
