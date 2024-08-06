@@ -23,7 +23,7 @@ const Profile = () => {
         <Text className="text-xl font-bold">Profile</Text>
       </View>
 
-      <View className="flex items-center pb-20">
+      <View className="flex pb-20">
         <FlatList
           renderItem={({ item }) => {
             return <SavedMeme item={item} />;
