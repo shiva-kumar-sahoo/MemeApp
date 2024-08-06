@@ -1,8 +1,9 @@
 import { View, Text, Image, FlatList } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import getSavedMemes from "../lib/getSavedMemes";
 import SavedMeme from "../components/savedMeme";
 import ProfileCard from "../components/ProfileCard";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Profile = () => {
   const [savedMemeData, setSavedMemeData] = useState([]);
@@ -11,9 +12,11 @@ const Profile = () => {
     const parsedData = JSON.parse(data);
     setSavedMemeData(parsedData);
   };
-  useEffect(() => {
-    fetchMemeData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchMemeData();
+    }, [])
+  );
   return (
     <View className="flex-1 mt-5">
       <View className="flex items-center justify-center py-5">
