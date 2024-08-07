@@ -1,12 +1,12 @@
 import { View, Text, FlatList } from "react-native";
-import { useCallback, useState } from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 import getSavedMemes from "../lib/getSavedMemes";
 import SavedMeme from "../components/savedMeme";
 import ProfileCard from "../components/ProfileCard";
 
 const Profile = () => {
   const [savedMemeData, setSavedMemeData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const fetchMemeData = async () => {
     const data = await getSavedMemes();
@@ -14,11 +14,9 @@ const Profile = () => {
     setSavedMemeData(parsedData);
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      fetchMemeData();
-    }, [])
-  );
+  useEffect(() => {
+    fetchMemeData();
+  }, []);
 
   return (
     <View className="flex-1 mt-5">
@@ -34,6 +32,12 @@ const Profile = () => {
           showsVerticalScrollIndicator={false}
           numColumns={2}
           ListHeaderComponent={<ProfileCard />}
+          refreshing={refreshing}
+          onRefresh={() => {
+            setRefreshing(true);
+            fetchMemeData();
+            setRefreshing(false);
+          }}
         />
       </View>
     </View>

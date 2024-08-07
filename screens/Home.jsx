@@ -6,6 +6,8 @@ import MemeCard from "../components/memeCard";
 
 const Home = () => {
   const [memeData, setMemeData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
   const fetchMemeData = async () => {
     const data = await getMeme();
     if (memeData.length > 0) {
@@ -13,6 +15,12 @@ const Home = () => {
     } else {
       setMemeData(data);
     }
+  };
+  const refreshMemeData = async () => {
+    setRefreshing(true);
+    const data = await getMeme();
+    setMemeData(data);
+    setRefreshing(false);
   };
   useEffect(() => {
     fetchMemeData();
@@ -32,6 +40,8 @@ const Home = () => {
           onEndReached={fetchMemeData}
           onEndReachedThreshold={2.5}
           showsVerticalScrollIndicator={false}
+          refreshing={refreshing}
+          onRefresh={refreshMemeData}
         />
       </View>
     </GestureHandlerRootView>
