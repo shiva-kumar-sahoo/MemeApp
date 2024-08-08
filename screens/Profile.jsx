@@ -23,6 +23,7 @@ const Profile = () => {
       <View className="flex items-center justify-center py-5">
         <Text className="text-xl font-bold">Profile</Text>
       </View>
+      <ProfileCard />
       <View className="flex pb-20">
         <FlatList
           renderItem={({ item }) => <SavedMeme item={item} />}
@@ -31,7 +32,6 @@ const Profile = () => {
           onEndReachedThreshold={2.5}
           showsVerticalScrollIndicator={false}
           numColumns={2}
-          ListHeaderComponent={<ProfileCard />}
           refreshing={refreshing}
           onRefresh={() => {
             setRefreshing(true);
