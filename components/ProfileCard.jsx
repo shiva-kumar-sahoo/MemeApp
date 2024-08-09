@@ -50,7 +50,7 @@ const ProfileCard = () => {
         <View className="px-2">
           <Image
             source={
-              profile.profileImage
+              profile?.profileImage
                 ? { uri: profile.profileImage }
                 : require("../assets/profile.jpeg")
             }
@@ -59,10 +59,10 @@ const ProfileCard = () => {
         </View>
         <View className="flex flex-row gap-2 items-center">
           <Text className="font-semibold text-lg text-white">
-            {profile.firstName || "First Name"}
+            {profile?.firstName ? profile.firstName : "First Name"}
           </Text>
           <Text className="font-semibold text-lg text-white">
-            {profile.lastName || "Last Name"}
+            {profile?.lastName ? profile.lastName : "Last Name"}
           </Text>
           <AntDesign
             name="edit"
