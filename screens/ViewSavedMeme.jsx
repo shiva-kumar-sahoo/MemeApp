@@ -2,16 +2,17 @@ import { View, Text, Image, ToastAndroid, Share, Alert } from "react-native";
 import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { TapGestureHandler } from "react-native-gesture-handler";
 import { useRoute } from "@react-navigation/native";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import saveMeme from "../lib/saveMeme";
 import unSaveMeme from "../lib/unSaveMeme";
 import downloadMeme from "../lib/downloadMeme";
+import { ResizeMode, Video } from "expo-av";
 
 const ViewSavedMeme = () => {
   const route = useRoute();
   const item = route.params.item;
-  const memeImage = item?.preview[1]
-    ? { uri: item?.preview[1] }
+  const memeImage = item?.url
+    ? { uri: item?.url }
     : require("../assets/no-image.jpg");
   const [like, setLike] = useState(item?.liked);
   const [save, setSave] = useState(item?.saved);
@@ -42,6 +43,7 @@ const ViewSavedMeme = () => {
   const memeDownload = async () => {
     await downloadMeme(item);
   };
+  const video = useRef(null);
   return (
     <View className="p-2 my-auto bg-white rounded-md">
       <View className="flex flex-row justify-between items-center">
@@ -76,13 +78,26 @@ const ViewSavedMeme = () => {
         numberOfTaps={2}
       >
         <View className="flex items-center ">
-          <Image
-            source={memeImage}
-            className="w-full h-96 rounded-lg object-contain"
-            contentFit="cover"
-            resizeMode="contain"
-            transition={1000}
-          />
+          {item?.isVideo ? (
+            <Video
+              ref={video}
+              className="w-full h-96 rounded-lg "
+              source={{
+                uri: item?.url,
+              }}
+              resizeMode={ResizeMode.CONTAIN}
+              shouldPlay={true}
+              isLooping
+            />
+          ) : (
+            <Image
+              source={memeImage}
+              className="w-full h-96 rounded-lg object-contain"
+              contentFit="cover"
+              resizeMode="contain"
+              transition={1000}
+            />
+          )}
         </View>
       </TapGestureHandler>
       <View className="flex flex-row justify-between px-6 mt-2">

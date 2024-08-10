@@ -3,8 +3,8 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
 const savedMeme = ({ item }) => {
-  const memeImage = item?.preview[1]
-    ? { uri: item?.preview[1] }
+  const memeImage = item?.url
+    ? { uri: item?.url }
     : require("../assets/no-image.jpg");
   const navigation = useNavigation();
   return (
@@ -14,12 +14,23 @@ const savedMeme = ({ item }) => {
           navigation.navigate("ViewSavedMeme", { item });
         }}
       >
-        <Image
-          source={memeImage}
-          className="w-40 h-40 rounded-lg object-contain"
-          contentFit="cover"
-          transition={1000}
-        />
+        {item?.isVideo ? (
+          <Video
+            className="w-40 h-40 rounded-lg object-contain"
+            source={{
+              uri: item?.url,
+            }}
+            resizeMode={ResizeMode.CONTAIN}
+            shouldPlay={false}
+          />
+        ) : (
+          <Image
+            source={memeImage}
+            className="w-40 h-40 rounded-lg object-contain"
+            contentFit="cover"
+            transition={1000}
+          />
+        )}
       </Pressable>
     </View>
   );

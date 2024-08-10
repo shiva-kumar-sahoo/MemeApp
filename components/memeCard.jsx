@@ -1,16 +1,17 @@
 import { View, Text, Image, ToastAndroid, Share, Alert } from "react-native";
 import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { TapGestureHandler } from "react-native-gesture-handler";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import saveMeme from "../lib/saveMeme";
 import unSaveMeme from "../lib/unSaveMeme";
 import downloadMeme from "../lib/downloadMeme";
+import { ResizeMode, Video } from "expo-av";
 
 const memeCard = ({ item }) => {
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
-  const memeImage = item?.preview[2]
-    ? { uri: item?.preview[2] }
+  const memeImage = item?.url
+    ? { uri: item?.url }
     : require("../assets/no-image.jpg");
   const memeShare = async () => {
     const options = {
@@ -39,7 +40,7 @@ const memeCard = ({ item }) => {
   const memeDownload = async () => {
     await downloadMeme(item);
   };
-
+  const video = useRef(null);
   return (
     <View className="p-2 my-2 bg-white rounded-md">
       <View className="flex flex-row justify-between items-center">
@@ -74,13 +75,26 @@ const memeCard = ({ item }) => {
         numberOfTaps={2}
       >
         <View className="flex items-center ">
-          <Image
-            source={memeImage}
-            className="w-full h-96 rounded-lg object-contain"
-            contentFit="cover"
-            resizeMode="contain"
-            transition={1000}
-          />
+          {item?.isVideo ? (
+            <Video
+              ref={video}
+              className="w-full h-96 rounded-lg "
+              source={{
+                uri: item?.url,
+              }}
+              resizeMode={ResizeMode.CONTAIN}
+              shouldPlay={true}
+              isLooping
+            />
+          ) : (
+            <Image
+              source={memeImage}
+              className="w-full h-96 rounded-lg object-contain"
+              contentFit="cover"
+              resizeMode="contain"
+              transition={1000}
+            />
+          )}
         </View>
       </TapGestureHandler>
       <View className="flex flex-row justify-between px-6 mt-2">
