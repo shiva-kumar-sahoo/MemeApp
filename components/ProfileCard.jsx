@@ -29,7 +29,10 @@ const ProfileCard = () => {
 
   const loadPref = async () => {
     try {
-      setPreferences(await loadPreferences());
+      const pref = await loadPreferences();
+      if (pref) {
+        setPreferences(pref);
+      }
     } catch (error) {
       console.error("Failed to load preferences:", error);
     }
@@ -74,7 +77,9 @@ const ProfileCard = () => {
       </View>
       <View className="flex flex-row gap-1 items-center justify-between border-t-2 border-gray-300 mt-4 mx-2 p-2">
         <Text className="text-base font-semibold text-slate-200">
-          {preferences.length ? "Edit Preferences" : "Add Preferences"}
+          {preferences && preferences.length
+            ? "Edit Preferences"
+            : "Add Preferences"}
         </Text>
         <AntDesign
           name="right"
