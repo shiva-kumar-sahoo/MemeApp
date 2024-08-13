@@ -1,6 +1,7 @@
 import { View, Image, Pressable } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import { ResizeMode, Video } from "expo-av";
 
 const savedMeme = ({ item }) => {
   const memeImage = item?.url
@@ -22,6 +23,8 @@ const savedMeme = ({ item }) => {
             }}
             resizeMode={ResizeMode.CONTAIN}
             shouldPlay={false}
+            isLooping
+            isMuted={true}
           />
         ) : (
           <Image

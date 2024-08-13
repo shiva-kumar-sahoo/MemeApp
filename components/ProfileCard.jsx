@@ -1,15 +1,11 @@
-import { View, Text, Image, FlatList } from "react-native";
+import { View, Text, Image } from "react-native";
 import { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons/";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import PreferenceModal from "./PreferenceModal";
 import EditProfileModal from "./EditProfileModal";
-import loadPreferences from "../lib/loadPreferences";
 
 const ProfileCard = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  const [preferences, setPreferences] = useState([]);
   const [profile, setProfile] = useState({
     firstName: "",
     lastName: "",
@@ -27,20 +23,8 @@ const ProfileCard = () => {
     }
   };
 
-  const loadPref = async () => {
-    try {
-      const pref = await loadPreferences();
-      if (pref) {
-        setPreferences(pref);
-      }
-    } catch (error) {
-      console.error("Failed to load preferences:", error);
-    }
-  };
-
   useEffect(() => {
     loadProfile();
-    loadPref();
   }, []);
 
   const handleProfileSave = (newProfile) => {
@@ -75,42 +59,6 @@ const ProfileCard = () => {
           />
         </View>
       </View>
-      <View className="flex flex-row gap-1 items-center justify-between border-t-2 border-gray-300 mt-4 mx-2 p-2">
-        <Text className="text-base font-semibold text-slate-200">
-          {preferences && preferences.length
-            ? "Edit Preferences"
-            : "Add Preferences"}
-        </Text>
-        <AntDesign
-          name="right"
-          size={24}
-          color="white"
-          onPress={() => setIsModalVisible(true)}
-        />
-      </View>
-      {preferences.length ? (
-        <View className="mt-1 px-2">
-          <Text className="text-base font-semibold text-white">
-            Preferences:
-          </Text>
-          <FlatList
-            data={preferences}
-            keyExtractor={(item) => item}
-            renderItem={({ item }) => (
-              <View className="bg-blue-400 p-2 m-1 rounded-md">
-                <Text className="text-white">{item}</Text>
-              </View>
-            )}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-      ) : null}
-
-      <PreferenceModal
-        visible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-      />
       <EditProfileModal
         visible={isEditModalVisible}
         onClose={() => setIsEditModalVisible(false)}

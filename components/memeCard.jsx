@@ -1,4 +1,4 @@
-import { View, Text, Image, ToastAndroid, Share, Alert } from "react-native";
+import { View, Text, Image, ToastAndroid, Alert } from "react-native";
 import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { TapGestureHandler } from "react-native-gesture-handler";
 import { useRef, useState } from "react";
@@ -6,26 +6,35 @@ import saveMeme from "../lib/saveMeme";
 import unSaveMeme from "../lib/unSaveMeme";
 import downloadMeme from "../lib/downloadMeme";
 import { ResizeMode, Video } from "expo-av";
+import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
 
 const memeCard = ({ item }) => {
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
+
   const memeImage = item?.url
     ? { uri: item?.url }
     : require("../assets/no-image.jpg");
+
   const memeShare = async () => {
-    const options = {
-      message: item?.title,
-    };
     try {
-      const result = await Share.share(options);
-      if (result.action === Share.dismissedAction) {
-        Alert.alert("Share Dismissed");
-      }
+      const fileExt = item?.isVideo ? ".mp4" : ".png";
+      let shareOptions = {
+        dialogTitle: item?.title,
+      };
+
+      const memeFileUri = `${FileSystem.documentDirectory}${item?.title}${fileExt}`;
+      const { uri } = await FileSystem.downloadAsync(item.url, memeFileUri);
+      const localUrl = uri;
+
+      await Sharing.shareAsync(localUrl, shareOptions);
+      await FileSystem.deleteAsync(localUrl);
     } catch (err) {
-      Alert.alert("Problem In Sharing");
+      Alert.alert("Problem In Sharing", err.message);
     }
   };
+
   const memeSave = async () => {
     const updatedItem = { ...item, saved: true, liked: like };
     await saveMeme(updatedItem);
@@ -85,6 +94,7 @@ const memeCard = ({ item }) => {
               resizeMode={ResizeMode.CONTAIN}
               shouldPlay={true}
               isLooping
+              isMuted={true}
             />
           ) : (
             <Image

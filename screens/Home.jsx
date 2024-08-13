@@ -10,6 +10,7 @@ const Home = () => {
 
   const fetchMemeData = async () => {
     const data = await getMeme();
+
     if (memeData.length > 0) {
       setMemeData([...memeData, ...data]);
     } else {
