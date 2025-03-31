@@ -1,11 +1,26 @@
 {
   "expo": {
-    "name": "MemeApp",
-    "slug": "MemeApp",
+    "name": "Funify",
+    "slug": "funify",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "android": {
+      "package": "com.shivakumar.funify"
+    },
+    "ios": {
+      "bundleIdentifier": "com.shivakumar.funify"
+    },
     "extra": {
       "eas": {
-        "projectId": "a3aa8cc0-0dc2-4898-8fad-885d69fcbcfc"
+        "projectId": "ca259fbc-bd4d-47bb-8e52-f5bb1251ec2d"
       }
     }
   }
